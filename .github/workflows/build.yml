@@ -31,8 +31,11 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Check code formatting with Prettier
-        run: npx prettier --check .
+      - name: Format code with Prettier
+        run: npx prettier --write .
+
+      - name: Check if any files were modified
+        run: git diff --exit-code || (echo "Prettier modified files. Please commit the changes." && exit 1)
 
       - name: Testing on OS (${{ matrix.os }}) with Node.js (version ${{ matrix.node-version }}) attempt ${{ matrix.attempt }}
         run: |
